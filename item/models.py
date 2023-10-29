@@ -1,13 +1,15 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import JSONField  # Import JSONField
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
+    extra_data = JSONField(blank=True, null=True)  # JSONB field for extra data
 
     class Meta:
         ordering = ('name',)
         verbose_name_plural = 'Categories'
-    
+
     def __str__(self):
         return self.name
 
@@ -20,6 +22,8 @@ class Item(models.Model):
     is_sold = models.BooleanField(default=False)
     created_by = models.ForeignKey(User, related_name='items', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
+    extra_data = JSONField(blank=True, null=True)  # JSONB field for extra data
+
     def __str__(self):
         return self.name
